@@ -15,11 +15,13 @@ class TileView : UIView {
       backgroundColor = delegate.tileColor(value)
       numberLabel.textColor = delegate.numberColor(value)
       numberLabel.text = "\(value)"
+      image.image = UIImage(named: "tile\(value)")
     }
   }
 
   unowned let delegate : AppearanceProviderProtocol
   let numberLabel : UILabel
+  let image : UIImageView
 
   required init(coder: NSCoder) {
     fatalError("NSCoding not supported")
@@ -27,18 +29,28 @@ class TileView : UIView {
     
   init(position: CGPoint, width: CGFloat, value: Int, radius: CGFloat, delegate d: AppearanceProviderProtocol) {
     delegate = d
+    
     numberLabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: width))
     numberLabel.textAlignment = NSTextAlignment.center
     numberLabel.minimumScaleFactor = 0.5
     numberLabel.font = delegate.fontForNumbers()
+    
+    image = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: width))
+//    image.backgroundColor = UIColor.darkGray
+    image.contentMode = .scaleAspectFit
+    image.isOpaque = true
+    image.alpha = 1.0
 
     super.init(frame: CGRect(x: position.x, y: position.y, width: width, height: width))
-    addSubview(numberLabel)
+//    addSubview(numberLabel)
+    addSubview(image)
+    
     layer.cornerRadius = radius
 
     self.value = value
     backgroundColor = delegate.tileColor(value)
     numberLabel.textColor = delegate.numberColor(value)
     numberLabel.text = "\(value)"
+    image.image = UIImage(named: "tile\(value)")
   }
 }
